@@ -1,0 +1,330 @@
+placeables:
+  - type: Environment
+    points: [[0.05, 0.05], [0.05, 0.95], [0.95, 0.95], [0.95, 0.05]]
+    color: [240, 240, 240]
+    geometry: polygon
+
+  - type: Table
+    x: 0.2
+    y: 0.1
+    width: 0.05
+    height: 0.15
+    color: [105, 105, 105]
+    collision: True
+    geometry: rectangle
+
+  - type: Chair
+    x: 0.17
+    y: 0.14
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Chair
+    x: 0.17
+    y: 0.21
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Table
+    x: 0.35
+    y: 0.1
+    width: 0.05
+    height: 0.15
+    color: [105, 105, 105]
+    collision: True
+    geometry: rectangle
+
+  - type: Chair
+    x: 0.32
+    y: 0.14
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Chair
+    x: 0.32
+    y: 0.21
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Table
+    x: 0.5
+    y: 0.1
+    width: 0.05
+    height: 0.15
+    color: [105, 105, 105]
+    collision: True
+    geometry: rectangle
+
+  - type: Chair
+    x: 0.47
+    y: 0.14
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Chair
+    x: 0.47
+    y: 0.21
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Table
+    x: 0.65
+    y: 0.1
+    width: 0.05
+    height: 0.15
+    color: [105, 105, 105]
+    collision: True
+    geometry: rectangle
+
+  - type: Chair
+    x: 0.62
+    y: 0.14
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Chair
+    x: 0.62
+    y: 0.21
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Table
+    x: 0.2
+    y: 0.4
+    width: 0.05
+    height: 0.15
+    color: [105, 105, 105]
+    collision: True
+    geometry: rectangle
+
+  - type: Chair
+    x: 0.17
+    y: 0.44
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Chair
+    x: 0.17
+    y: 0.51
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Table
+    x: 0.35
+    y: 0.4
+    width: 0.05
+    height: 0.15
+    color: [105, 105, 105]
+    collision: True
+    geometry: rectangle
+
+  - type: Chair
+    x: 0.32
+    y: 0.44
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Chair
+    x: 0.32
+    y: 0.51
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Table
+    x: 0.5
+    y: 0.4
+    width: 0.05
+    height: 0.15
+    color: [105, 105, 105]
+    collision: True
+    geometry: rectangle
+
+  - type: Chair
+    x: 0.47
+    y: 0.44
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Chair
+    x: 0.47
+    y: 0.51
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Table
+    x: 0.65
+    y: 0.4
+    width: 0.05
+    height: 0.15
+    color: [105, 105, 105]
+    collision: True
+    geometry: rectangle
+
+  - type: Chair
+    x: 0.62
+    y: 0.44
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Chair
+    x: 0.62
+    y: 0.51
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Table
+    x: 0.2
+    y: 0.7
+    width: 0.05
+    height: 0.15
+    color: [ 105, 105, 105 ]
+    collision: True
+    geometry: rectangle
+
+  - type: Chair
+    x: 0.17
+    y: 0.74
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Chair
+    x: 0.17
+    y: 0.81
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Table
+    x: 0.35
+    y: 0.7
+    width: 0.05
+    height: 0.15
+    color: [ 105, 105, 105 ]
+    collision: True
+    geometry: rectangle
+
+  - type: Chair
+    x: 0.32
+    y: 0.74
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Chair
+    x: 0.32
+    y: 0.81
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Table
+    x: 0.5
+    y: 0.7
+    width: 0.05
+    height: 0.15
+    color: [ 105, 105, 105 ]
+    collision: True
+    geometry: rectangle
+
+  - type: Chair
+    x: 0.47
+    y: 0.74
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Chair
+    x: 0.47
+    y: 0.81
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Table
+    x: 0.65
+    y: 0.7
+    width: 0.05
+    height: 0.15
+    color: [ 105, 105, 105 ]
+    collision: True
+    geometry: rectangle
+
+  - type: Chair
+    x: 0.62
+    y: 0.74
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Chair
+    x: 0.62
+    y: 0.81
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Table
+    x: 0.8
+    y: 0.8
+    width: 0.05
+    height: 0.15
+    color: [75, 75, 75]
+    collision: True
+    geometry: rectangle
+
+  - type: Armchair
+    x: 0.88
+    y: 0.88
+    radius: 0.015
+    color: [0, 102, 204]
+    geometry: circle
+
+  - type: Entrance
+    x: 0.05
+    y: 0.93
+    width: 0.1
+    height: 0.02
+    color: [255, 255, 50]
+    geometry: rectangle
+
+  - type: WhiteBoard
+    x: 0.9
+    y: 0.1
+    width: 0.03
+    height: 0.3
+    color: [64, 64, 64]
+    collision: True
+    geometry: rectangle
+
+  - type: BackHotspot
+    x: 0.05
+    y: 0.1
+    width: 0.06
+    height: 0.5
+    color: [0, 204, 102]
+    geometry: rectangle
+
+  - type: FrontHotspot
+    x: 0.87
+    y: 0.1
+    width: 0.03
+    height: 0.3
+    color: [0, 204, 102]
+    geometry: rectangle
