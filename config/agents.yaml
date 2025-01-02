@@ -1,0 +1,11 @@
+agents:
+  - id: 1
+    type: "student"
+    schedule:
+      arriving: "07:50"
+      leaving: "13:50"
+    style: "smart"
+    behaviour: "quiet"
+  - id: 1
+    type: "teacher"
+    behaviour: "quiet"

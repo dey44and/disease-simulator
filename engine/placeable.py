@@ -1,4 +1,5 @@
 import pygame as pg
+import numpy as np
 from itertools import starmap
 
 class Placeable:
@@ -19,7 +20,7 @@ class Placeable:
         self.color = color
         self.collision = collision
 
-    def draw(self, screen, screen_width, screen_height):
+    def draw(self, screen, screen_width, screen_height, tile_size):
         """
         Draw the object on the screen.
         """
@@ -32,11 +33,14 @@ class Rectangle(Placeable):
         self.width = width
         self.height = height
 
-    def draw(self, screen, screen_width, screen_height):
-        abs_x = int(self.x * screen_width)
-        abs_y = int(self.y * screen_height)
-        abs_width = int(self.width * screen_width)
-        abs_height = int(self.height * screen_height)
+    def draw(self, screen, screen_width, screen_height, tile_size):
+        # Check for valid positions
+        if self.x * tile_size > screen_width or self.y * tile_size > screen_height:
+            raise ValueError("Invalid coordinates for rectangle.")
+        abs_x = int(self.x * tile_size)
+        abs_y = int(self.y * tile_size)
+        abs_width = int(self.width * tile_size)
+        abs_height = int(self.height * tile_size)
         pg.draw.rect(screen, self.color, (abs_x, abs_y, abs_width, abs_height))
 
 class Polygon(Placeable):
@@ -45,17 +49,17 @@ class Polygon(Placeable):
         super().__init__(name, self.x, self.y, color, collision)
         self.points = points
 
-    def draw(self, screen, screen_width, screen_height):
-        processed_points = list(starmap(lambda x, y: (x * screen_width, y * screen_height), self.points))
+    def draw(self, screen, screen_width, screen_height, tile_size):
+        processed_points = list(starmap(lambda x, y: (x * tile_size, y * tile_size), self.points))
         pg.draw.polygon(screen, self.color, processed_points)
 
 class Circle(Placeable):
-    def __init__(self, name, x, y, radius, color=(0, 0, 0), collision=False):
+    def __init__(self, name, x, y, color=(0, 0, 0), collision=False):
         super().__init__(name, x, y, color, collision)
-        self.radius = radius
 
-    def draw(self, screen, screen_width, screen_height):
-        abs_x = int(self.x * screen_width)
-        abs_y = int(self.y * screen_height)
-        abs_radius = int(self.radius * screen_width)
+    def draw(self, screen, screen_width, screen_height, tile_size):
+        abs_x = int(self.x * tile_size + tile_size / 2)
+        abs_y = int(self.y * tile_size + tile_size / 2)
+        abs_radius = tile_size / 2.5
+
         pg.draw.circle(screen, self.color, (abs_x, abs_y), abs_radius)
