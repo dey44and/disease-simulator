@@ -1,6 +1,7 @@
-import pygame as pg
-import numpy as np
 from itertools import starmap
+
+import pygame as pg
+
 
 class Placeable:
     """
