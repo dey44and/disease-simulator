@@ -1,6 +1,6 @@
 from engine.placeable import Placeable
-from interaction.agent import Agent
-from interaction.teacher import Teacher
+from interaction.agents.student import Student
+from interaction.agents.teacher import Teacher
 from interaction.timer import Timer
 
 
@@ -10,7 +10,7 @@ class SceneOrchestrator:
     """
     def __init__(
             self,
-            agents: list[Agent],
+            agents: list[Student],
             agents_prop,
             teacher: Teacher,
             placeables: list[Placeable],
@@ -33,6 +33,7 @@ class SceneOrchestrator:
         # Simulate the action for each agent
         for agent in self.__agents:
             agent.act(self.__timer.get_time_str(), self.__placeables, self.__agents_prop)
+        self.__teacher.act(self.__timer.get_time_str(), self.__placeables, self.__agents_prop)
 
         # Go to the next moment
         self.__timer.tick()
@@ -50,8 +51,8 @@ class SceneOrchestrator:
     def get_timer(self):
         return self.__timer
 
-    def is_finished(self) -> bool:
-        return self.__finished
-
     def get_agents_prop(self, prop: str):
         return self.__agents_prop[prop]
+
+    def is_finished(self) -> bool:
+        return self.__finished

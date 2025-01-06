@@ -3,8 +3,8 @@ import os
 import pygame as pg
 import logging
 
-from interaction.collisiongrid import build_collision_grid
-from interaction.sceneorchestrator import SceneOrchestrator
+from interaction.traverse_algorithms.collisiongrid import build_collision_grid
+from interaction.scene_orchestrator import SceneOrchestrator
 from interaction.timer import Timer
 from loader.agents_loader import load_agents_from_yaml
 from loader.scene_loader import load_scene_from_yaml

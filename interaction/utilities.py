@@ -5,8 +5,8 @@ style_probabilities = {
 }
 
 behaviour_probabilities = {
-    "quiet": 0.3,
-    "active": 0.7
+    "quiet": 0.2,
+    "active": 0.8
 }
 
 mask_protection_probabilities = {
@@ -32,6 +32,10 @@ class PandemicStatus(object):
 class Activity(object):
     IDLE = 1
     MOVING = 2
-    AT_HOME = 3
-    AT_WHITEBOARD = 4
-    OUTSIDE = 5
+    OUTSIDE = 3
+
+class Place(object):
+    ENTRANCE = 1
+    BACKSPOT = 2
+    WHITEBOARD = 3
+    DESK = 4

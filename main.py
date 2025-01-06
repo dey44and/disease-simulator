@@ -1,6 +1,6 @@
 import logging
 
-import engine.simulationengine as simengine
+import engine.simulation_engine as simengine
 
 if __name__ == "__main__":
     logging.getLogger().setLevel(logging.INFO)

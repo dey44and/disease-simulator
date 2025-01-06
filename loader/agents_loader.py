@@ -1,6 +1,7 @@
 import yaml
 
-from interaction.agent import Agent
+from interaction.agents.student import Student
+from interaction.agents.teacher import Teacher
 
 def load_agents_from_yaml(file_path):
     with open(file_path, 'r') as file:
@@ -11,8 +12,9 @@ def load_agents_from_yaml(file_path):
     for obj in data['agents']:
         obj_type = obj['type']
         if obj_type == 'student':
-            students.append(Agent(obj['id'], obj['schedule'], obj['style'],
-                                  obj['behaviour'], obj['mask'], obj['vaccine']))
+            students.append(Student(obj['id'], obj['schedule'], obj['style'],
+                                    obj['behaviour'], obj['mask'], obj['vaccine']))
         elif obj_type == 'teacher':
-            pass
+            teacher = Teacher(obj['id'], obj['schedule'], obj['style'],
+                              obj['behaviour'], obj['mask'], obj['vaccine'])
     return students, teacher
