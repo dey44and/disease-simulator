@@ -1,7 +1,8 @@
 import random
 from datetime import datetime
 
-from interaction.agents.agent import Agent, find_placeable_by_type, decide_next_target, draw_circle
+from interaction.agents.agent import Agent, find_placeable_by_type, decide_next_target, draw_circle, in_bounds, \
+    heuristic
 from interaction.traverse_algorithms.pathfinder import PathFinder
 from interaction.traverse_algorithms.random_block import random_subtile_in_rectangle
 from interaction.utilities import Activity, Place, behaviour_probabilities
@@ -22,12 +23,12 @@ class Teacher(Agent):
         self.__map_density = None  # Be careful to initiate this parameter :)
 
         # Current activity state of the agents
-        self.activity = Activity.OUTSIDE
-        self.place = None
+        self.__activity = Activity.OUTSIDE
+        self.__place = None
         self.__state = {
             "last_time": None,
             "restart": True,
-            "break": True,
+            "break": False,
         }
 
         # A* path
@@ -38,18 +39,43 @@ class Teacher(Agent):
         self.__gx = -1
         self.__gy = -1
 
-    def _set_grid_position(self, gx, gy):
-        self.__gx = gx
-        self.__gy = gy
+    @property
+    def activity(self):
+        return self.__activity
 
-    def _set_agent_properties(self, activity, place):
+    @activity.setter
+    def activity(self, value):
+        self.__activity = value
+
+    @property
+    def place(self):
+        return self.__place
+
+    @place.setter
+    def place(self, value):
+        self.__place = value
+
+    @property
+    def grid_position(self):
+        return self.__gx, self.__gy
+
+    @grid_position.setter
+    def grid_position(self, value):
+        x, y = value
+        self.__gx = x
+        self.__gy = y
+
+    @property
+    def agent_properties(self):
+        return self.activity, self.place, self.__path, self.__target
+
+    @agent_properties.setter
+    def agent_properties(self, value):
+        activity, place = value
         self.activity = activity
         self.place = place
         self.__path = []
         self.__target = None
-
-    def _get_grid_position(self):
-        return self.__gx, self.__gy
 
     def act(self, current_time, placeables, agent_props):
         self.__map_density = agent_props["map_density"]
@@ -62,39 +88,27 @@ class Teacher(Agent):
         # Reset restart parameter
         if self.__state["last_time"] is None or current_time < self.__state["last_time"]:
             self.__state["restart"] = True
-        # Reset break parameter
-        if not self.__state["break"] and current_time.minute < 50:
-            self.__state["break"] = True
-
-        # Functions used to compute the path between points
-        def in_bounds(grid, cell):
-            # Method used to check the position of the cell inside the grid
-            x, y = cell
-            return 0 <= x < len(grid) and 0 <= y < len(grid[0])
-
-        def heuristic(a, b):
-            # We are using Manhattan distance as the heuristic function
-            return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
         # 1) Check if the agents is outside the environment and the time to arrive => Spawn on a random tile on the entrance
         if self.activity == Activity.OUTSIDE:
-            if current_time >= arriving_time and self.__state["restart"]:
+            if current_time >= arriving_time and (self.__state["restart"] or current_time.minute < 50 and self.__state["break"]):
                 entrance = find_placeable_by_type(placeables, "Entrance")
                 if entrance is not None:
-                    print(f"[INFO] Agent {self.id} spawned on the entrance")
+                    print(f"[INFO] Agent teacher spawned on the entrance")
                     self.__state["restart"] = False
+                    self.__state["break"] = False
                     gx, gy = random_subtile_in_rectangle(entrance, agent_props["map_density"])
-                    self._set_grid_position(gx, gy)
+                    self.grid_position = (gx, gy)
 
                     # Prepare self properties
-                    self._set_agent_properties(Activity.MOVING, Place.BACKSPOT)
+                    self.agent_properties = (Activity.MOVING, Place.BACKSPOT)
 
         # 2) Check if the agents is in the moving state, then follow or compute the path
         elif self.activity == Activity.MOVING:
             # If there is no path, compute one
             if not self.__path:
                 if self.__target is None:
-                    self.__target = decide_next_target(self, placeables, current_time, agent_props["map_density"])
+                    self.__target = decide_next_target(self, placeables, agent_props["map_density"])
                 # use A* to compute the path
                 if self.__target is not None:
                     start_cell = (self.__gy, self.__gx)
@@ -110,29 +124,35 @@ class Teacher(Agent):
             else:
                 next_cell = self.__path.pop(0)
                 nr, nc = next_cell
-                self._set_grid_position(nc, nr)
+                self.grid_position = (nc, nr)
                 if not self.__path:
                     # If the destination has been reached, the agents become IDLE
                     self.activity = Activity.IDLE
 
         # 3) If agents is in the idle state, check for break or leaving
         elif self.activity == Activity.IDLE:
-            m = current_time.minute
             # check leaving
             if self.place == Place.ENTRANCE:
-                # Agent has finished its day
+                # Agent has finished its day or Agent shall leave the environment during the break
                 self.activity = Activity.OUTSIDE
-                self._set_grid_position(-1, -1)
+                self.grid_position = (-1, -1)
             else:
                 # If agent's day is over
                 if current_time >= leaving_time:
                     # Prepare self properties
-                    self._set_agent_properties(Activity.MOVING, Place.ENTRANCE)
+                    self.agent_properties = (Activity.MOVING, Place.ENTRANCE)
                 # If the class is started and the agents is not at his desk
-                elif m < 50 and self.place != Place.DESK:
-                    self._set_agent_properties(Activity.MOVING, Place.TEACHER_DESK)
+                elif current_time.minute < 50 and self.place != Place.TEACHER_DESK:
+                    self.agent_properties = (Activity.MOVING, Place.TEACHER_DESK)
+                # If it's time for a break depending on the teacher's style
+                elif current_time.minute >= 50 and self.place == Place.TEACHER_DESK:
+                    if random.random() < behaviour_probabilities[self.behaviour]:
+                        self.agent_properties = (Activity.MOVING, Place.ENTRANCE)
+                        self.__state["break"] = True
 
         self.__state["last_time"] = current_time
+        # print(f"[INFO] Agent {self.id} is now at {self.__gx}, {self.__gy} and status is {self.activity} at {current_time}")
+        # print(self.__state)
 
     def draw(self, screen, screen_width, screen_height, tile_size):
         draw_circle(screen, self.__gx, self.__gy, "T", tile_size, self.__map_density)

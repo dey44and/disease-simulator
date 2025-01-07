@@ -34,10 +34,8 @@ class SceneDrawer:
 
         # 2) Draw actors
         for agent in self.orchestrator.agents:
-            agent.draw(self.screen, self.screen.get_width(), self.screen.get_height(),
-                       tile_size / self.orchestrator.agents_prop("map_density"))
-        self.orchestrator.teacher.draw(self.screen, self.screen.get_width(), self.screen.get_height(),
-                                       tile_size / self.orchestrator.agents_prop("map_density"))
+            agent.draw(self.screen, self.screen.get_width(), self.screen.get_height(), tile_size)
+        self.orchestrator.teacher.draw(self.screen, self.screen.get_width(), self.screen.get_height(), tile_size)
 
         # 3) Draw the time/week in top-left corner
         font = pg.font.Font(None, 24)

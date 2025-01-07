@@ -2,7 +2,9 @@ import random
 from datetime import datetime
 
 from engine.placeable import Placeable
-from interaction.agents.agent import Agent, decide_next_target, find_placeable_by_type, draw_circle
+from interaction.agents.agent import Agent, decide_next_target, find_placeable_by_type, draw_circle, in_bounds, \
+    heuristic, next_class_start
+from interaction.timer import sample_gamma_time, add_minutes_to_time
 from interaction.traverse_algorithms.pathfinder import PathFinder
 from interaction.traverse_algorithms.random_block import random_subtile_in_rectangle
 from interaction.utilities import *
@@ -26,12 +28,14 @@ class Student(Agent):
         self.pandemic_status = PandemicStatus.SUSCEPTIBLE
 
         # Current activity state of the agents
-        self.activity = Activity.OUTSIDE
-        self.place = None
+        self.__activity = Activity.OUTSIDE
+        self.__place = None
         self.__state = {
-            "last_time": None,
-            "restart": True,
-            "break": True,
+            "last_time": None,         # Last simulated time
+            "restart": True,           # When we restart the agent
+            "break": True,             # Whether the agent is allowed to take a break or not
+            "desk_delay_end": None,    # When we finish waiting at the desk
+            "back_hotspot_end": None       # When we finish at the back hotspot
         }
 
         # A* path
@@ -45,20 +49,46 @@ class Student(Agent):
         self.__gx = -1
         self.__gy = -1
 
-    def _set_grid_position(self, gx, gy):
-        self.__gx = gx
-        self.__gy = gy
+    @property
+    def activity(self):
+        return self.__activity
 
-    def _set_agent_properties(self, activity, place):
+    @activity.setter
+    def activity(self, value):
+        self.__activity = value
+
+    @property
+    def place(self):
+        return self.__place
+
+    @place.setter
+    def place(self, value):
+        self.__place = value
+
+    @property
+    def grid_position(self):
+        return self.__gx, self.__gy
+
+    @grid_position.setter
+    def grid_position(self, value):
+        x, y = value
+        self.__gx = x
+        self.__gy = y
+
+    @property
+    def agent_properties(self):
+        return self.activity, self.place, self.__path, self.__target
+
+    @agent_properties.setter
+    def agent_properties(self, value):
+        activity, place = value
         self.activity = activity
         self.place = place
         self.__path = []
         self.__target = None
 
-    def _get_grid_position(self):
-        return self.__gx, self.__gy
-
-    def get_chair_index(self):
+    @property
+    def chair_index(self):
         return self.__chair_index
 
     def act(self, current_time: str, placeables: list[Placeable], agent_props: dict):
@@ -76,16 +106,6 @@ class Student(Agent):
         if not self.__state["break"] and current_time.minute < 50:
             self.__state["break"] = True
 
-        # Functions used to compute the path between points
-        def in_bounds(grid, cell):
-            # Method used to check the position of the cell inside the grid
-            x, y = cell
-            return 0 <= x < len(grid) and 0 <= y < len(grid[0])
-
-        def heuristic(a, b):
-            # We are using Manhattan distance as the heuristic function
-            return abs(a[0] - b[0]) + abs(a[1] - b[1])
-
         # 1) Check if the agents is outside the environment and the time to arrive => Spawn on a random tile on the entrance
         if self.activity == Activity.OUTSIDE:
             if current_time >= arriving_time and self.__state["restart"]:
@@ -94,17 +114,17 @@ class Student(Agent):
                     print(f"[INFO] Agent {self.id} spawned on the entrance")
                     self.__state["restart"] = False
                     gx, gy = random_subtile_in_rectangle(entrance, agent_props["map_density"])
-                    self._set_grid_position(gx, gy)
+                    self.grid_position = (gx, gy)
 
                     # Prepare self properties
-                    self._set_agent_properties(Activity.MOVING, Place.BACKSPOT)
+                    self.agent_properties = (Activity.MOVING, Place.BACKSPOT)
 
         # 2) Check if the agents is in the moving state, then follow or compute the path
         elif self.activity == Activity.MOVING:
             # If there is no path, compute one
             if not self.__path:
                 if self.__target is None:
-                    self.__target = decide_next_target(self, placeables, current_time, agent_props["map_density"])
+                    self.__target = decide_next_target(self, placeables, agent_props["map_density"])
                 # use A* to compute the path
                 if self.__target is not None:
                     start_cell = (self.__gy, self.__gx)
@@ -120,34 +140,45 @@ class Student(Agent):
             else:
                 next_cell = self.__path.pop(0)
                 nr, nc = next_cell
-                self._set_grid_position(nc, nr)
+                self.grid_position = (nc, nr)
                 if not self.__path:
                     # If the destination has been reached, the agents become IDLE
                     self.activity = Activity.IDLE
 
         # 3) If agents is in the idle state, check for break or leaving
         elif self.activity == Activity.IDLE:
-            m = current_time.minute
-            # check leaving
+            # Check if the day is finished
             if self.place == Place.ENTRANCE:
-                # Agent has finished its day
                 self.activity = Activity.OUTSIDE
-                self._set_grid_position(-1, -1)
+                self.grid_position = (-1, -1)
             else:
-                # If agent's day is over
+                # If agent's day is over, go to entrance
                 if current_time >= leaving_time:
-                    # Prepare self properties
-                    self._set_agent_properties(Activity.MOVING, Place.ENTRANCE)
-                # If break time (xx:50 - xx+1:00) or study time (xx:00 - xx:50)
+                    self.agent_properties = (Activity.MOVING, Place.ENTRANCE)
+                # Check for different activities
                 else:
-                    if m >= 50 and self.place != Place.BACKSPOT and self.__state["break"]:
-                        self.__state["break"] = False
-                        # check agents behaviour
+                    # --- Check for break ---
+                    if current_time.minute >= 50 and self.place != Place.BACKSPOT and self.__state["break"]:
+                        self.__state["break"] = False  # Break logic shouldn't be triggered again this hour
+                        # Decide if we want to leave the desk
                         if random.random() < behaviour_probabilities[self.behaviour]:
-                            self._set_agent_properties(Activity.MOVING, Place.BACKSPOT)
-                    # If the class is started and the agents is not at his desk
-                    elif m < 50 and self.place != Place.DESK:
-                        self._set_agent_properties(Activity.MOVING, Place.DESK)
+                            # Generate a short desk delay up to 5 min
+                            wait_minutes = sample_gamma_time(shape=2.0, scale=1.0, max_minutes=5)
+                            self.__state["desk_delay_end"] = add_minutes_to_time(current_time, wait_minutes)
+                            self.__state["back_hotspot_end"] = None  # When the break is done
+                    # Check if we have a pending desk delay that expired
+                    if self.__state["desk_delay_end"]:
+                        # If we've reached or passed the time to leave desk
+                        if current_time >= self.__state["desk_delay_end"]:
+                            # If minutes_left is positive, he shall go the hotspot
+                            if 60 - current_time.minute > 0:
+                                back_hotspot_time = sample_gamma_time(shape=2.0, scale=1.0, max_minutes=60-current_time.minute)
+                                self.__state["back_hotspot_end"] = add_minutes_to_time(current_time, back_hotspot_time)
+                                self.__state["desk_delay_end"] = None
+                                self.agent_properties = (Activity.MOVING, Place.BACKSPOT)
+                    # --- Class time logic ---
+                    elif current_time.minute < 50 and self.place != Place.DESK:
+                        self.agent_properties = (Activity.MOVING, Place.DESK)
 
         self.__state["last_time"] = current_time
         # print(f"[INFO] Agent {self.id} is now at {self.__gx}, {self.__gy} and status is {self.activity} at {current_time}")

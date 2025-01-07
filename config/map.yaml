@@ -1,6 +1,6 @@
 placeables:
   - type: Environment
-    points: [[1, 1], [1, 11], [20, 11], [20, 1]]
+    points: [[1, 1], [1, 11], [19, 11], [19, 1]]
     color: [240, 240, 240]
     geometry: polygon
     collision: True

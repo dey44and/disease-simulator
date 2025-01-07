@@ -1,10 +1,37 @@
 import datetime
 
+from scipy.stats import gamma
+
+
 WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 
 
+def add_minutes_to_time(base_time: datetime.time, minutes: float) -> datetime.time:
+    """
+    Adds minutes to a given time.
+    :param base_time: The time to add minutes to.
+    :param minutes: THe number of minutes to add.
+    :return: The new calculated time.
+    """
+    dummy_date = datetime.datetime(2025, 1, 1, base_time.hour, base_time.minute, base_time.second)
+    new_dt = dummy_date + datetime.timedelta(minutes=minutes)
+    return new_dt.time()
+
+
+def sample_gamma_time(shape=2.0, scale=1.0, max_minutes=5) -> float:
+    """
+    Returns a random delta time of maximum 5 minutes.
+    :param shape: The shape of the random variable.
+    :param scale: The scale of the random variable.
+    :param max_minutes: Max limit of time.
+    :return: The random delta time.
+    """
+    raw = gamma.rvs(a=shape, scale=scale)  # e.g. a=shape
+    return min(raw, max_minutes)
+
+
 class Timer(object):
-    def __init__(self, start_time, end_time, num_weeks, time_step_seconds):
+    def __init__(self, start_time: str, end_time: str, num_weeks: int, time_step_seconds: int):
         """
         Constructor for Timer class.
         :param start_time: Start time of the simulation.
