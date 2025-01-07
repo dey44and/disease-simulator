@@ -1,4 +1,24 @@
 agents:
+  - id: 0
+    type: "student"
+    schedule:
+      arriving: "07:30:00"
+      leaving: "13:30:00"
+    style: "smart"
+    behaviour: "active"
+    mask: "n95"
+    vaccine: "no-vax"
+
+  - id: 3
+    type: "student"
+    schedule:
+      arriving: "07:55:00"
+      leaving: "13:55:00"
+    style: "smart"
+    behaviour: "active"
+    mask: "n95"
+    vaccine: "no-vax"
+
   - id: 5
     type: "student"
     schedule:
@@ -34,6 +54,16 @@ agents:
     schedule:
       arriving: "07:45:00"
       leaving: "13:40:00"
+    style: "smart"
+    behaviour: "quiet"
+    mask: "n95"
+    vaccine: "no-vax"
+
+  - id: 15
+    type: "student"
+    schedule:
+      arriving: "07:48:00"
+      leaving: "13:52:00"
     style: "smart"
     behaviour: "quiet"
     mask: "n95"

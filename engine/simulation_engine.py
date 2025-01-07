@@ -12,7 +12,7 @@ from loader.engine_loader import load_engine_from_yaml
 from engine.scenedrawer import SceneDrawer
 
 
-class SimulationEngine(object):
+class SimulationEngine:
     """
     A class to manage the pygame engine lifecycle, including:\r\n
     - Initialization of pygame.
@@ -114,7 +114,7 @@ class SimulationEngine(object):
             self.__orchestrator.simulate_once()
 
             # 3. If finished, stop the simulation
-            if self.__orchestrator.is_finished():
+            if self.__orchestrator.finished:
                 logging.info("Simulation reached the end (all weeks).")
                 self.__running = False
                 continue
@@ -125,7 +125,6 @@ class SimulationEngine(object):
             pg.display.flip()
 
             # 5. Wait in real time depending on speed
-            # If speed_x=2 => 0.5 seconds per step
             real_sleep = 1.0 / self.__speed_x
             time.sleep(real_sleep)
 

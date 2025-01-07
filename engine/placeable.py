@@ -10,16 +10,36 @@ class Placeable:
     def __init__(self, name, x, y, color, collision=True):
         """
         :param name: Identifier for the object.
-        :param x: Relative X coordinate (0-1).
-        :param y: Relative Y coordinate (0-1).
+        :param x: Relative X coordinate.
+        :param y: Relative Y coordinate.
         :param color: RGB color tuple.
         :param collision: Whether this object causes collisions.
         """
-        self.name = name
-        self.x = x
-        self.y = y
-        self.color = color
-        self.collision = collision
+        self._name = name
+        self._x = x
+        self._y = y
+        self._color = color
+        self._collision = collision
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def x(self):
+        return self._x
+
+    @property
+    def y(self):
+        return self._y
+
+    @property
+    def color(self):
+        return self._color
+
+    @property
+    def collision(self):
+        return self._collision
 
     def draw(self, screen, screen_width, screen_height, tile_size):
         """
@@ -29,6 +49,9 @@ class Placeable:
 
 
 class Rectangle(Placeable):
+    """
+    A class that stores the coordinates and the color of the rectangle.
+    """
     def __init__(self, name, x, y, width, height, color=(0, 0, 0), collision=True):
         super().__init__(name, x, y, color, collision)
         self.width = width
@@ -45,9 +68,11 @@ class Rectangle(Placeable):
         pg.draw.rect(screen, self.color, (abs_x, abs_y, abs_width, abs_height))
 
 class Polygon(Placeable):
+    """
+    A class that stores the coordinates and the color of the polygon.
+    """
     def __init__(self, name, points, color=(0, 0, 0), collision=True):
-        self.x, self.y = 0.5, 0.5
-        super().__init__(name, self.x, self.y, color, collision)
+        super().__init__(name, 0, 0, color, collision)
         self.points = points
 
     def draw(self, screen, screen_width, screen_height, tile_size):
@@ -55,6 +80,9 @@ class Polygon(Placeable):
         pg.draw.polygon(screen, self.color, processed_points)
 
 class Circle(Placeable):
+    """
+    A class that stores the coordinates and the color of the circle.
+    """
     def __init__(self, name, x, y, color=(0, 0, 0), collision=False):
         super().__init__(name, x, y, color, collision)
 

@@ -32,27 +32,32 @@ class SceneOrchestrator:
 
         # Simulate the action for each agent
         for agent in self.__agents:
-            agent.act(self.__timer.get_time_str(), self.__placeables, self.__agents_prop)
-        self.__teacher.act(self.__timer.get_time_str(), self.__placeables, self.__agents_prop)
+            agent.act(self.__timer.time_str, self.__placeables, self.__agents_prop)
+        self.__teacher.act(self.__timer.time_str, self.__placeables, self.__agents_prop)
 
         # Go to the next moment
         self.__timer.tick()
         self.__finished = self.__timer.check_finished()
 
-    def get_agents(self):
+    @property
+    def agents(self):
         return self.__agents
 
-    def get_teacher(self):
+    @property
+    def teacher(self):
         return self.__teacher
 
-    def get_placeables(self):
+    @property
+    def placeables(self):
         return self.__placeables
 
-    def get_timer(self):
+    @property
+    def timer(self):
         return self.__timer
 
-    def get_agents_prop(self, prop: str):
-        return self.__agents_prop[prop]
-
-    def is_finished(self) -> bool:
+    @property
+    def finished(self) -> bool:
         return self.__finished
+
+    def agents_prop(self, prop: str):
+        return self.__agents_prop[prop]

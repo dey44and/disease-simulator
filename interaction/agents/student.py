@@ -1,13 +1,11 @@
 import random
-
-import pygame as pg
-
-from engine.colors import BLACK, WHITE
-from engine.placeable import Placeable
-from interaction.agents.agent import Agent
-from interaction.traverse_algorithms.pathfinder import PathFinder
-from interaction.utilities import *
 from datetime import datetime
+
+from engine.placeable import Placeable
+from interaction.agents.agent import Agent, decide_next_target, find_placeable_by_type, draw_circle
+from interaction.traverse_algorithms.pathfinder import PathFinder
+from interaction.traverse_algorithms.random_block import random_subtile_in_rectangle
+from interaction.utilities import *
 
 
 class Student(Agent):
@@ -43,7 +41,7 @@ class Student(Agent):
         # Possibly store assigned chair index or placeable reference
         self.__chair_index = id
 
-        # agents's position in sub-tile coordinates (grid-based)
+        # agent's position in sub-tile coordinates (grid-based)
         self.__gx = -1
         self.__gy = -1
 
@@ -71,9 +69,6 @@ class Student(Agent):
         leaving_time = datetime.strptime(self.schedule["leaving"], fmt).time()
         current_time = datetime.strptime(current_time, fmt).time()
 
-        map_density = agent_props["map_density"]
-        collision_grid = agent_props["collision_grid"]
-
         # Reset restart parameter
         if self.__state["last_time"] is None or current_time < self.__state["last_time"]:
             self.__state["restart"] = True
@@ -98,7 +93,7 @@ class Student(Agent):
                 if entrance is not None:
                     print(f"[INFO] Agent {self.id} spawned on the entrance")
                     self.__state["restart"] = False
-                    gx, gy = random_subtile_in_rectangle(entrance, map_density)
+                    gx, gy = random_subtile_in_rectangle(entrance, agent_props["map_density"])
                     self._set_grid_position(gx, gy)
 
                     # Prepare self properties
@@ -109,12 +104,12 @@ class Student(Agent):
             # If there is no path, compute one
             if not self.__path:
                 if self.__target is None:
-                    self.__target = decide_next_target(self, placeables, current_time, map_density)
+                    self.__target = decide_next_target(self, placeables, current_time, agent_props["map_density"])
                 # use A* to compute the path
                 if self.__target is not None:
                     start_cell = (self.__gy, self.__gx)
                     goal_cell = (self.__target[1], self.__target[0])
-                    path = PathFinder.astar_pathfinding(collision_grid, start_cell, goal_cell, in_bounds, heuristic)
+                    path = PathFinder.astar_pathfinding(agent_props["collision_grid"], start_cell, goal_cell, in_bounds, heuristic)
                     if not path:
                         # If the point cannot be reached, become IDLE
                         self.activity = Activity.IDLE
@@ -139,7 +134,7 @@ class Student(Agent):
                 self.activity = Activity.OUTSIDE
                 self._set_grid_position(-1, -1)
             else:
-                # If agents's day is over
+                # If agent's day is over
                 if current_time >= leaving_time:
                     # Prepare self properties
                     self._set_agent_properties(Activity.MOVING, Place.ENTRANCE)
@@ -158,98 +153,4 @@ class Student(Agent):
         # print(f"[INFO] Agent {self.id} is now at {self.__gx}, {self.__gy} and status is {self.activity} at {current_time}")
 
     def draw(self, screen, screen_width, screen_height, tile_size):
-        """
-        Draws the character on the screen.
-        :param screen: Reference to the screen to draw on.
-        :param screen_width: Width of the screen.
-        :param screen_height: Height of the screen.
-        :param tile_size: Size of the tile.
-        """
-        if self.__map_density:
-            # tile coords
-            tx = int(self.__gx / self.__map_density)
-            ty = int(self.__gy / self.__map_density)
-
-            abs_x = int(tx * tile_size + tile_size / 2)
-            abs_y = int(ty * tile_size + tile_size / 2)
-            abs_radius = tile_size / 2.5
-
-            pg.draw.circle(screen, WHITE, (abs_x, abs_y), abs_radius)
-            pg.draw.circle(screen, BLACK, (abs_x, abs_y), abs_radius, width=3)
-            # Create a font
-            font = pg.font.Font(None, 24)
-            text_surface = font.render(f"{self.id}", True, BLACK)  # black color
-            screen.blit(text_surface, (abs_x - abs_radius / 2, abs_y - abs_radius / 2))
-
-
-def find_placeable_by_type(placeables, type):
-    """
-    Filter the placeables list to find the placeable by type. If there are multiple placeables of specified type,
-    the first occurence is returned.
-    :param placeables: List of placeables.
-    :param type: Type of the placeable represented as string
-    :return: the placeable with the specified type.
-    """
-    for p in placeables:
-        if p.name == type:
-            return p
-    return None
-
-
-def random_subtile_in_rectangle(rect_placeable, map_density):
-    """
-    Generate a random subtile inside a rectangle based on a map density parameter.
-    :param rect_placeable: Properties of the rectangle.
-    :param map_density: Density of the standard tile.
-    :return: A tuple that represents the random subtile.
-    """
-    import random
-
-    sub_left = int(rect_placeable.x * map_density)
-    sub_top = int(rect_placeable.y * map_density)
-    sub_w = int(rect_placeable.width * map_density)
-    sub_h = int(rect_placeable.height * map_density)
-
-    gx = random.randint(sub_left, sub_left + sub_w - 1)
-    gy = random.randint(sub_top, sub_top + sub_h - 1)
-    return gx, gy
-
-
-def decide_next_target(agent, placeables, current_time, map_density):
-    """
-    Choose next target coordinates based on the current time and state of the agents.
-    :param agent: A reference to the agents.
-    :param placeables: A list of placeables.
-    :param current_time: The current time.
-    :param map_density: The density of the standard tile.
-    :return: A tuple that represents the next target coordinates.
-    """
-    if agent.place == Place.DESK:
-        # Generate the position of the chair
-        chair = get_chair_for_agent(placeables, agent.get_chair_index())
-        if chair:
-            sub_left = int(chair.x * map_density)
-            sub_top = int(chair.y * map_density)
-            return sub_left, sub_top
-    hotspot = None
-    if agent.place == Place.ENTRANCE:
-        # Generate a random position on the entrance
-        hotspot = find_placeable_by_type(placeables, "Entrance")
-    elif agent.place == Place.BACKSPOT:
-        # Generate a random position on the BackHotspot
-        hotspot = find_placeable_by_type(placeables, "BackHotspot")
-    return random_subtile_in_rectangle(hotspot, map_density) if hotspot else None
-
-
-def get_chair_for_agent(placeables, index):
-    """
-    Return the chair associated with the given index.
-    :param placeables: List of placeables.
-    :param index: Index of the chair.
-    :return: Chair associated with the given index.
-    """
-    # Filter the placeables and keep only the 'Chair' type
-    chairs = [p for p in placeables if p.name == "Chair"]
-    if index < len(chairs):
-        return chairs[index]
-    return None
+        draw_circle(screen, self.__gx, self.__gy, f"{self.id}", tile_size, self.__map_density)

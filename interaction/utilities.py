@@ -39,3 +39,4 @@ class Place(object):
     BACKSPOT = 2
     WHITEBOARD = 3
     DESK = 4
+    TEACHER_DESK = 5

@@ -30,7 +30,31 @@ class Timer(object):
         self.__current_date = base_date
         self.__current_time_of_day = datetime.datetime.combine(base_date, self.__daily_start_time)
 
-    def tick(self):
+    @property
+    def current_week(self) -> int:
+        """
+        Get the current week of the simulation.
+        :return: A number representing the current week of the simulation.
+        """
+        return self.__current_week
+
+    @property
+    def day_of_week_str(self) -> str:
+        """
+        Get the current day of the week string.
+        :return: A string representing the current day of the week.
+        """
+        return WEEKDAYS[self.__day_of_week]
+
+    @property
+    def time_str(self) -> str:
+        """
+        Get the current time string.
+        :return: A string representing the current time formatted.
+        """
+        return self.__current_time_of_day.strftime("%H:%M:%S")
+
+    def tick(self) -> datetime.datetime:
         """
         Tick the simulation.
         :return: The current time of the simulation.
@@ -65,24 +89,3 @@ class Timer(object):
                 self.__daily_start_time
             )
         return False
-
-    def get_current_week(self) -> int:
-        """
-        Get the current week of the simulation.
-        :return: A number representing the current week of the simulation.
-        """
-        return self.__current_week
-
-    def get_day_of_week_str(self) -> str:
-        """
-        Get the current day of the week string.
-        :return: A string representing the current day of the week.
-        """
-        return WEEKDAYS[self.__day_of_week]
-
-    def get_time_str(self) -> str:
-        """
-        Get the current time string.
-        :return: A string representing the current time formatted.
-        """
-        return self.__current_time_of_day.strftime("%H:%M:%S")

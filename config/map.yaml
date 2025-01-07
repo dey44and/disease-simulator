@@ -3,6 +3,7 @@ placeables:
     points: [[1, 1], [1, 11], [20, 11], [20, 1]]
     color: [240, 240, 240]
     geometry: polygon
+    collision: True
 
   - type: Table
     x: 5
