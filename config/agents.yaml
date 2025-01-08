@@ -7,7 +7,7 @@ agents:
     style: "smart"
     behaviour: "active"
     mask: "n95"
-    vaccine: "no-vax"
+    vaccine: "pfizer/moderna"
 
   - id: 3
     type: "student"
@@ -16,7 +16,7 @@ agents:
       leaving: "13:55:00"
     style: "smart"
     behaviour: "active"
-    mask: "n95"
+    mask: "cloth"
     vaccine: "no-vax"
 
   - id: 5
@@ -26,7 +26,7 @@ agents:
       leaving: "13:50:00"
     style: "smart"
     behaviour: "quiet"
-    mask: "n95"
+    mask: "surgical"
     vaccine: "no-vax"
 
   - id: 8
@@ -36,7 +36,7 @@ agents:
       leaving: "13:55:00"
     style: "smart"
     behaviour: "active"
-    mask: "n95"
+    mask: "surgical"
     vaccine: "no-vax"
 
   - id: 10
@@ -55,8 +55,8 @@ agents:
       arriving: "07:45:00"
       leaving: "13:40:00"
     style: "smart"
-    behaviour: "quiet"
-    mask: "n95"
+    behaviour: "active"
+    mask: "surgical"
     vaccine: "no-vax"
 
   - id: 15
@@ -65,8 +65,8 @@ agents:
       arriving: "07:48:00"
       leaving: "13:52:00"
     style: "smart"
-    behaviour: "quiet"
-    mask: "n95"
+    behaviour: "active"
+    mask: "cloth"
     vaccine: "no-vax"
 
   - id: 17
@@ -86,7 +86,7 @@ agents:
       leaving: "13:40:00"
     style: "smart"
     behaviour: "quiet"
-    mask: "n95"
+    mask: "surgical"
     vaccine: "no-vax"
 
   - id: 23
@@ -96,10 +96,10 @@ agents:
       leaving: "13:45:00"
     style: "smart"
     behaviour: "active"
-    mask: "n95"
+    mask: "cloth"
     vaccine: "no-vax"
 
-  - id: 0
+  - id: -1
     type: "teacher"
     schedule:
       arriving: "07:55:00"

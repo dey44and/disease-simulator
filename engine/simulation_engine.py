@@ -3,6 +3,7 @@ import os
 import pygame as pg
 import logging
 
+from interaction.disease.spread_simulator import SpreadSimulator
 from interaction.traverse_algorithms.collisiongrid import build_collision_grid
 from interaction.scene_orchestrator import SceneOrchestrator
 from interaction.timer import Timer
@@ -66,13 +67,28 @@ class SimulationEngine:
             tile_size=tile_size, map_density=engine_config["engine"]["map_density"]
         )
         agents_prop = {
+            "start_time": engine_config["engine"]["start_time"],
+            "end_time": engine_config["engine"]["end_time"],
             "map_density": engine_config["engine"]["map_density"],
+            "grid_density": engine_config["engine"]["grid_density"],
             "infection_prob": engine_config["engine"]["infection_prob"],
+            "base_shedding": engine_config["engine"]["base_shedding"],
             "tile_size": self.__tile_size,
             "height": self.__height,
             "width": self.__width,
             "collision_grid": collision_grid,
+            "time_step_seconds": engine_config["engine"]["time_step_seconds"],
         }
+
+        # Validate agents properties and map properties
+        if (teacher.schedule["arriving"] < engine_config["engine"]["start_time"] or
+                teacher.schedule["leaving"] >= engine_config["engine"]["end_time"]):
+            raise ValueError("Arriving and leaving times should be included in the total time of the simulation.")
+
+        for agent in agents:
+            if (agent.schedule["arriving"] < engine_config["engine"]["start_time"] or
+                    agent.schedule["leaving"] >= engine_config["engine"]["end_time"]):
+                raise ValueError("Arriving and leaving times should be included in the total time of the simulation.")
 
         if agents_prop["tile_size"] % agents_prop["map_density"] != 0:
             raise ValueError("Map density must be divisible by tile size.")
@@ -87,12 +103,20 @@ class SimulationEngine:
             num_weeks=num_weeks,
             time_step_seconds=self.__time_step_sec
         )
+        spread_simulator = SpreadSimulator(
+            rows=self.__height // self.__tile_size * engine_config["engine"]["grid_density"],
+            cols=self.__width // self.__tile_size * engine_config["engine"]["grid_density"],
+            max_load=engine_config["engine"]["max_load"],
+            decay_const=engine_config["engine"]["decay_const"],
+            diffusion_coeff=engine_config["engine"]["diffusion_coeff"]
+        )
         self.__orchestrator = SceneOrchestrator(
             agents=agents,
             agents_prop=agents_prop,
             teacher=teacher,
             placeables=placeables,
             timer=timer,
+            spread_simulator=spread_simulator
         )
 
         self.__drawer = SceneDrawer(self.__screen, self.__orchestrator)

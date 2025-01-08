@@ -1,13 +1,14 @@
 import pygame as pg
 
 from engine.colors import WHITE
+from interaction.scene_orchestrator import SceneOrchestrator
 
 
 class SceneDrawer:
     """
     Draws the scene on the screen.
     """
-    def __init__(self, screen, orchestrator=None):
+    def __init__(self, screen: pg.Surface, orchestrator: SceneOrchestrator=None):
         """
         Constructor for SceneDrawer class.
         :param orchestrator: Reference to SceneOrchestrator so we can extract scene details.
@@ -37,7 +38,10 @@ class SceneDrawer:
             agent.draw(self.screen, self.screen.get_width(), self.screen.get_height(), tile_size)
         self.orchestrator.teacher.draw(self.screen, self.screen.get_width(), self.screen.get_height(), tile_size)
 
-        # 3) Draw the time/week in top-left corner
+        # 3) Draw particles
+        self.orchestrator.spread_simulator.draw(self.screen, self.screen.get_width(), self.screen.get_height())
+
+        # 4) Draw the time/week in top-left corner
         font = pg.font.Font(None, 24)
         info_text = (
             f"Week {self.orchestrator.timer.current_week}, "
@@ -47,5 +51,5 @@ class SceneDrawer:
         text_surface = font.render(info_text, True, WHITE)  # white color
         self.screen.blit(text_surface, (10, 10))
 
-        # 4) Update the entire display
+        # 5) Update the entire display
         pg.display.flip()

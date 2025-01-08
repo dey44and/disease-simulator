@@ -1,3 +1,24 @@
+from engine.colors import *
+
+
+class PandemicStatus(object):
+    SUSCEPTIBLE = 1
+    INFECTED = 2
+    QUARANTINED = 3
+    RECOVERED = 4
+
+class Activity(object):
+    IDLE = 1
+    MOVING = 2
+    OUTSIDE = 3
+
+class Place(object):
+    ENTRANCE = 1
+    BACK = 2
+    WHITEBOARD = 3
+    DESK = 4
+    TEACHER_DESK = 5
+
 style_probabilities = {
     "lazy": 0.2,
     "neutral": 0.5,
@@ -17,26 +38,15 @@ mask_protection_probabilities = {
 }
 
 vaccine_protection_probabilities = {
-    "no-vax": 0,
+    "no-vax": 0.0,
     "any": 0.31,
     "astra-zeneca": 0.67,
     "pfizer/moderna": 0.88
 }
 
-class PandemicStatus(object):
-    SUSCEPTIBLE = 1
-    INFECTED = 2
-    QUARANTINED = 3
-    RECOVERED = 4
-
-class Activity(object):
-    IDLE = 1
-    MOVING = 2
-    OUTSIDE = 3
-
-class Place(object):
-    ENTRANCE = 1
-    BACKSPOT = 2
-    WHITEBOARD = 3
-    DESK = 4
-    TEACHER_DESK = 5
+status_color = {
+    PandemicStatus.SUSCEPTIBLE: WHITE,
+    PandemicStatus.INFECTED: RED,
+    PandemicStatus.QUARANTINED: ORANGE,
+    PandemicStatus.RECOVERED: GREEN
+}

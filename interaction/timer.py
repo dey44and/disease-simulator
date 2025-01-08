@@ -43,7 +43,7 @@ class Timer(object):
         self.__time_step_seconds = time_step_seconds
 
         # Parse daily times
-        fmt = "%H:%M"
+        fmt = "%H:%M:%S"
         self.__daily_start_time = datetime.datetime.strptime(start_time, fmt).time()
         self.__daily_end_time = datetime.datetime.strptime(end_time, fmt).time()
 
@@ -80,6 +80,14 @@ class Timer(object):
         :return: A string representing the current time formatted.
         """
         return self.__current_time_of_day.strftime("%H:%M:%S")
+
+    @property
+    def current_time_of_day(self) -> datetime.datetime:
+        """
+        Get the current time of day.
+        :return: A datetime representing the current time of day.
+        """
+        return self.__current_time_of_day
 
     def tick(self) -> datetime.datetime:
         """

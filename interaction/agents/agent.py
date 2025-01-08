@@ -1,8 +1,9 @@
+from datetime import time, datetime
+
 import pygame as pg
 
-from datetime import time
-from engine.colors import *
 from engine.placeable import Placeable
+from interaction.disease.spread_simulator import SpreadSimulator
 from interaction.traverse_algorithms.random_block import random_subtile_in_rectangle
 from interaction.utilities import *
 
@@ -68,7 +69,7 @@ def decide_next_target(agent, placeables, map_density):
     if agent.place == Place.ENTRANCE:
         # Generate a random position on the entrance
         hotspot = find_placeable_by_type(placeables, "Entrance")
-    elif agent.place == Place.BACKSPOT:
+    elif agent.place == Place.BACK:
         # Generate a random position on the BackHotspot
         hotspot = find_placeable_by_type(placeables, "BackHotspot")
     return random_subtile_in_rectangle(hotspot, map_density) if hotspot else None
@@ -88,7 +89,7 @@ def get_chair_for_agent(placeables, index):
     return None
 
 
-def draw_circle(screen, px, py, text, tile_size, map_density):
+def draw_circle(screen, px, py, text, tile_size, map_density, pandemic_status: PandemicStatus):
     """
     Draw a circle on the screen.
     :param screen: Reference to the screen object.
@@ -97,6 +98,7 @@ def draw_circle(screen, px, py, text, tile_size, map_density):
     :param text: Text to be drawn in the circle.
     :param tile_size: Size of the tile.
     :param map_density: The density of the standard tile.
+    :param pandemic_status: The pandemic status of the agent.
     """
     if map_density:
         tx = int(px * map_density)
@@ -106,7 +108,9 @@ def draw_circle(screen, px, py, text, tile_size, map_density):
         abs_y = int(ty * (tile_size / map_density) + (tile_size / map_density) / 2)
         abs_radius = (tile_size / map_density) / 2.5
 
-        pg.draw.circle(screen, WHITE, (abs_x, abs_y), abs_radius)
+        color = status_color[pandemic_status]
+
+        pg.draw.circle(screen, color, (abs_x, abs_y), abs_radius)
         pg.draw.circle(screen, BLACK, (abs_x, abs_y), abs_radius, width=3)
         # Create a font
         font = pg.font.Font(None, 24)
@@ -188,16 +192,19 @@ class Agent:
     def vaccine(self, new_vaccine):
         self._vaccine = new_vaccine
 
-    def act(self, current_time: str, placeables: list[Placeable], agent_props):
+    def act(self, current_date: datetime.date, current_time: str, placeables: list[Placeable],
+            agent_props, spread_simulator: SpreadSimulator):
         """
-        Called each simulation 'tick'. Manages daily logic:
-          - If OUTSIDE and it's time to arrive, spawn in entrance
-          - If MOVING, follow path
-          - If IDLE, check break times or leaving times
+        Called each simulation 'tick'. Manages daily logic, based on the agent's state.
+        :param current_date: The current date of the simulation.
+        :param current_time: The current time of the simulation.
+        :param placeables: List of placeables.
+        :param agent_props: Dictionary of agent properties.
+        :param spread_simulator: Reference to SpreadSimulator object.
         """
         pass
 
-    def draw(self, screen, screen_width, screen_height, tile_size):
+    def draw(self, screen: pg.Surface, screen_width: int, screen_height: int, tile_size: int):
         """
         Draws the character on the screen.
         :param screen: Reference to the screen to draw on.
