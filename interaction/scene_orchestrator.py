@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime, timedelta
 
 from engine.placeable import Placeable
@@ -29,6 +30,10 @@ class SceneOrchestrator:
         :param timer: Reference to timer object.
         :param spread_simulator: Reference to spread simulator.
         """
+        # Set logger properties
+        self.__logger = logging.getLogger(self.__class__.__name__)
+        logging.basicConfig(level=logging.INFO)
+
         self.__agents = agents
         self.__agents_prop = agents_prop
         self.__teacher = teacher
@@ -38,6 +43,9 @@ class SceneOrchestrator:
 
         self.__last_time = self.__timer.current_time_of_day
         self.__finished = False
+
+        if self.__teacher is None:
+            self.__logger.warning("Teacher doesn't exist, but the simulation will continue.")
 
     def simulate_once(self):
         """
@@ -54,16 +62,19 @@ class SceneOrchestrator:
 
         # 1) MORNING check
         if self.__last_time == start_time:
+            self.__logger.info(f"A new simulation started at {start_time}")
             # Simulate for students
             for agent in self.__agents:
                 agent.morning_infection_check(self.__agents_prop, current_dt=self.__last_time)
             # Simulate for teacher
-            self.__teacher.morning_infection_check(self.__agents_prop, current_dt=self.__last_time)
+            if self.__teacher:
+                self.__teacher.morning_infection_check(self.__agents_prop, current_dt=self.__last_time)
 
         # 2) RUN the day
         for agent in self.__agents:
             agent.act(current_date, self.__timer.time_str, self.__placeables, self.__agents_prop, self.__spread_simulator)
-        self.__teacher.act(current_date, self.__timer.time_str, self.__placeables, self.__agents_prop, self.__spread_simulator)
+        if self.__teacher:
+            self.__teacher.act(current_date, self.__timer.time_str, self.__placeables, self.__agents_prop, self.__spread_simulator)
 
         # 3) ENDING check
         if self.__last_time == end_time - timedelta(seconds=self.__agents_prop["time_step_seconds"]):
@@ -71,7 +82,8 @@ class SceneOrchestrator:
             for agent in self.__agents:
                 agent.end_of_day_test(self.__last_time)
             # Simulate for teacher
-            self.__teacher.end_of_day_test(self.__last_time)
+            if self.__teacher:
+                self.__teacher.end_of_day_test(self.__last_time)
 
         # Simulate the virus spread
         self.__spread_simulator.update()

@@ -7,10 +7,12 @@ class PandemicStatus(object):
     QUARANTINED = 3
     RECOVERED = 4
 
+
 class Activity(object):
     IDLE = 1
     MOVING = 2
     OUTSIDE = 3
+
 
 class Place(object):
     ENTRANCE = 1
@@ -18,6 +20,7 @@ class Place(object):
     WHITEBOARD = 3
     DESK = 4
     TEACHER_DESK = 5
+
 
 style_probabilities = {
     "lazy": 0.2,

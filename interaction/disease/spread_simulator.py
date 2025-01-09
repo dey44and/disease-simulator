@@ -78,8 +78,7 @@ class SpreadSimulator:
         for r in range(self.__rows):
             for c in range(self.__cols):
                 self.__grid[r][c] *= decay_factor
-                if self.__grid[r][c] < 0:
-                    self.__grid[r][c] = 0.0
+                self.__grid[r][c]  = max(0.0, self.__grid[r][c])
 
     def _apply_diffusion(self):
         """
@@ -147,5 +146,4 @@ class SpreadSimulator:
                         # Create a surface with per-pixel alpha
                         surf = pg.Surface((screen_width // self.__cols, screen_height // self.__rows), pg.SRCALPHA)
                         surf.fill((255, 0, 0, alpha_val))
-                        # Blit onto main screen
                         screen.blit(surf, (x, y))

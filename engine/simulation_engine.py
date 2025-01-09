@@ -4,7 +4,7 @@ import pygame as pg
 import logging
 
 from interaction.disease.spread_simulator import SpreadSimulator
-from interaction.traverse_algorithms.collisiongrid import build_collision_grid
+from interaction.traversealgorithms.collisiongrid import build_collision_grid
 from interaction.scene_orchestrator import SceneOrchestrator
 from interaction.timer import Timer
 from loader.agents_loader import load_agents_from_yaml
@@ -93,6 +93,10 @@ class SimulationEngine:
         if agents_prop["tile_size"] % agents_prop["map_density"] != 0:
             raise ValueError("Map density must be divisible by tile size.")
 
+        # Set logger properties
+        self.__logger = logging.getLogger(self.__class__.__name__)
+        logging.basicConfig(level=logging.INFO)
+
         # Discrete stepping / speed config
         self.__time_step_sec = engine_config["engine"]["time_step_seconds"]  # e.g. 5
         self.__speed_x = engine_config["engine"]["speed_x"]  # e.g. 1 (can be changed)
@@ -123,7 +127,7 @@ class SimulationEngine:
 
     def run(self):
         import time
-        logging.info("Starting simulation engine ...")
+        self.__logger.info("Starting simulation engine ...")
 
         self.__running = True
 
@@ -139,7 +143,7 @@ class SimulationEngine:
 
             # 3. If finished, stop the simulation
             if self.__orchestrator.finished:
-                logging.info("Simulation reached the end (all weeks).")
+                self.__logger.info("Simulation reached the end (all weeks).")
                 self.__running = False
                 continue
 
@@ -159,4 +163,4 @@ class SimulationEngine:
         Clean up the pygame engine and quit.
         """
         pg.quit()
-        logging.info('Quitting the simulator engine.')
+        self.__logger.info('Quitting the simulator engine.')

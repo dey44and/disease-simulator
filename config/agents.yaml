@@ -16,7 +16,7 @@ agents:
       leaving: "13:55:00"
     style: "smart"
     behaviour: "active"
-    mask: "cloth"
+    mask: "n95"
     vaccine: "no-vax"
 
   - id: 5
@@ -27,7 +27,7 @@ agents:
     style: "smart"
     behaviour: "quiet"
     mask: "surgical"
-    vaccine: "no-vax"
+    vaccine: "astra-zeneca"
 
   - id: 8
     type: "student"
@@ -37,7 +37,7 @@ agents:
     style: "smart"
     behaviour: "active"
     mask: "surgical"
-    vaccine: "no-vax"
+    vaccine: "any"
 
   - id: 10
     type: "student"
@@ -47,7 +47,7 @@ agents:
     style: "smart"
     behaviour: "quiet"
     mask: "n95"
-    vaccine: "no-vax"
+    vaccine: "astra-zeneca"
 
   - id: 14
     type: "student"
@@ -57,7 +57,7 @@ agents:
     style: "smart"
     behaviour: "active"
     mask: "surgical"
-    vaccine: "no-vax"
+    vaccine: "pfizer/moderna"
 
   - id: 15
     type: "student"
@@ -67,7 +67,7 @@ agents:
     style: "smart"
     behaviour: "active"
     mask: "cloth"
-    vaccine: "no-vax"
+    vaccine: "any"
 
   - id: 17
     type: "student"
@@ -87,7 +87,7 @@ agents:
     style: "smart"
     behaviour: "quiet"
     mask: "surgical"
-    vaccine: "no-vax"
+    vaccine: "pfizer/moderna"
 
   - id: 23
     type: "student"
@@ -97,7 +97,7 @@ agents:
     style: "smart"
     behaviour: "active"
     mask: "cloth"
-    vaccine: "no-vax"
+    vaccine: "astra-zeneca"
 
   - id: -1
     type: "teacher"
@@ -107,4 +107,4 @@ agents:
     style: "smart"
     behaviour: "quiet"
     mask: "n95"
-    vaccine: "no-vax"
+    vaccine: "any"

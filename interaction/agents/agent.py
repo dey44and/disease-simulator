@@ -4,7 +4,7 @@ import pygame as pg
 
 from engine.placeable import Placeable
 from interaction.disease.spread_simulator import SpreadSimulator
-from interaction.traverse_algorithms.random_block import random_subtile_in_rectangle
+from interaction.traversealgorithms.random_block import random_subtile_in_rectangle
 from interaction.utilities import *
 
 
@@ -31,16 +31,16 @@ def heuristic(a, b):
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
 
-def find_placeable_by_type(placeables, type):
+def find_placeable_by_type(placeables, _type):
     """
     Filter the placeables list to find the placeable by type. If there are multiple placeables of specified type,
     the first occurence is returned.
     :param placeables: List of placeables.
-    :param type: Type of the placeable represented as string
+    :param _type: Type of the placeable represented as string
     :return: the placeable with the specified type.
     """
     for p in placeables:
-        if p.name == type:
+        if p.name == _type:
             return p
     return None
 
@@ -119,10 +119,10 @@ def draw_circle(screen, px, py, text, tile_size, map_density, pandemic_status: P
 
 
 class Agent:
-    def __init__(self, id, schedule, style="lazy", behaviour="quiet", mask="no-mask", vaccine="no-vax"):
+    def __init__(self, _id, schedule, style="lazy", behaviour="quiet", mask="no-mask", vaccine="no-vax"):
         """
         Constructor for Agent class.
-        :param id: The id of the agents.
+        :param _id: The id of the agents.
         :param schedule: The schedule of the agents.
         :param style: The style of the agents (lazy, smart, neutral).
         :param behaviour: The behaviour of the agents (quiet, active).
@@ -137,7 +137,7 @@ class Agent:
             raise ValueError("Invalid agents mask")
         if vaccine not in vaccine_protection_probabilities.keys():
             raise ValueError("Invalid agents vaccine")
-        self._id = id
+        self._id = _id
         self._schedule = schedule
         self._style = style
         self._behaviour = behaviour

@@ -5,29 +5,29 @@ from datetime import datetime
 from engine.placeable import Placeable
 from interaction.agents.agent import Agent, decide_next_target, find_placeable_by_type, draw_circle, in_bounds, heuristic
 from interaction.disease.spread_simulator import SpreadSimulator
-from interaction.health_manager import PandemicStateManager
+from interaction.disease.health_manager import PandemicStateManager
 from interaction.timer import sample_gamma_time, add_minutes_to_time
-from interaction.traverse_algorithms.pathfinder import PathFinder
-from interaction.traverse_algorithms.random_block import random_subtile_in_rectangle
+from interaction.traversealgorithms.pathfinder import PathFinder
+from interaction.traversealgorithms.random_block import random_subtile_in_rectangle
 from interaction.utilities import *
 
 
 class Student(Agent):
-    def __init__(self, id, schedule, style="lazy", behaviour="quiet", mask="no-mask", vaccine="no-vax"):
+    def __init__(self, _id, schedule, style="lazy", behaviour="quiet", mask="no-mask", vaccine="no-vax"):
         """
         Constructor for Student class.
-        :param id: The id of the agents.
+        :param _id: The id of the agents.
         :param schedule: The schedule of the agents.
         :param style: The style of the agents (lazy, smart, neutral).
         :param behaviour: The behaviour of the agents (quiet, active).
         :param mask: The mask of the agents.
         :param vaccine: The vaccine.
         """
-        super().__init__(id, schedule, style, behaviour, mask, vaccine)
+        super().__init__(_id, schedule, style, behaviour, mask, vaccine)
         self.__map_density = None  # Be careful to initiate this parameter :)
 
         # Current pandemic status of the agents [susceptible, infected, quarantined, recovered]
-        self.__health_manager = PandemicStateManager(agent_id=id)
+        self.__health_manager = PandemicStateManager(agent_id=_id)
 
         # Current state of the agent
         self.__activity = Activity.OUTSIDE
@@ -45,7 +45,7 @@ class Student(Agent):
         self.__target = None  # (col, row) in sub-tile
 
         # Possibly store assigned chair index or placeable reference
-        self.__chair_index = id
+        self.__chair_index = _id
 
         # agent's position in sub-tile coordinates (grid-based)
         self.__gx = -1
@@ -146,13 +146,13 @@ class Student(Agent):
         vaccine_eff = vaccine_protection_probabilities.get(self.vaccine, 0.0)
 
         # 1) Gather total droplet load from sub-cells
-        start_x = self.__gx * agent_props["grid_density"]
-        start_y = self.__gy * agent_props["grid_density"]
+        start_x = self.__gx * agent_props.get("grid_density", 1)
+        start_y = self.__gy * agent_props.get("grid_density", 1)
 
         total_load = 0.0
         count = 0
-        for rx in range(start_x, start_x + agent_props["grid_density"]):
-            for ry in range(start_y, start_y + agent_props["grid_density"]):
+        for rx in range(start_x, start_x + agent_props.get("grid_density", 1)):
+            for ry in range(start_y, start_y + agent_props.get("grid_density", 1)):
                 abs_load = spread_simulator.get_rate(ry, rx)  # Possibly you define this
                 total_load += abs_load
                 count += 1
@@ -163,7 +163,7 @@ class Student(Agent):
 
         # 3) Convert load => infection probability
         #    Option: exponential approach => p = 1 - exp(-k * load_after_mask)
-        k = agent_props.get("infection_k", 0.00001)  # TODO: a scale factor for environment-based infection
+        k = agent_props.get("infection_k", 0.000014)  # TODO: a scale factor for environment-based infection
         raw_prob = 1 - math.exp(-k * load_after_mask)
 
         # 4) Vaccine further reduces infection chance

@@ -5,9 +5,9 @@ from datetime import datetime
 from interaction.agents.agent import Agent, find_placeable_by_type, decide_next_target, draw_circle, in_bounds, \
     heuristic
 from interaction.disease.spread_simulator import SpreadSimulator
-from interaction.health_manager import PandemicStateManager
-from interaction.traverse_algorithms.pathfinder import PathFinder
-from interaction.traverse_algorithms.random_block import random_subtile_in_rectangle
+from interaction.disease.health_manager import PandemicStateManager
+from interaction.traversealgorithms.pathfinder import PathFinder
+from interaction.traversealgorithms.random_block import random_subtile_in_rectangle
 from interaction.utilities import Activity, Place, behaviour_probabilities, mask_protection_probabilities, \
     vaccine_protection_probabilities
 
@@ -137,13 +137,13 @@ class Teacher(Agent):
         vaccine_eff = vaccine_protection_probabilities.get(self.vaccine, 0.0)
 
         # 1) Gather total droplet load from sub-cells
-        start_x = self.__gx * agent_props["grid_density"]
-        start_y = self.__gy * agent_props["grid_density"]
+        start_x = self.__gx * agent_props.get("grid_density", 1)
+        start_y = self.__gy * agent_props.get("grid_density", 1)
 
         total_load = 0.0
         count = 0
-        for rx in range(start_x, start_x + agent_props["grid_density"]):
-            for ry in range(start_y, start_y + agent_props["grid_density"]):
+        for rx in range(start_x, start_x + agent_props.get("grid_density", 1)):
+            for ry in range(start_y, start_y + agent_props.get("grid_density", 1)):
                 abs_load = spread_simulator.get_rate(ry, rx)  # Possibly you define this
                 total_load += abs_load
                 count += 1
@@ -154,7 +154,7 @@ class Teacher(Agent):
 
         # 3) Convert load => infection probability
         #    Option: exponential approach => p = 1 - exp(-k * load_after_mask)
-        k = agent_props.get("infection_k", 0.0001)  # TODO: a scale factor for environment-based infection
+        k = agent_props.get("infection_k", 0.00014)  # TODO: a scale factor for environment-based infection
         raw_prob = 1 - math.exp(-k * load_after_mask)
 
         # 4) Vaccine further reduces infection chance
