@@ -2,9 +2,9 @@ engine:
   start_time: "07:30:00"
   end_time: "14:00:00"
   infection_prob: 0.021
-  num_weeks: 3
+  num_weeks: 4
   time_step_seconds: 5    # jump 5 seconds each iteration
-  speed_x: 1000             # default speed-up factor
+  speed_x: 1000           # default speed-up factor
   map_density: 1
   grid_density: 5
   max_load: 16000

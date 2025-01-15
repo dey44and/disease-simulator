@@ -1,0 +1,50 @@
+INFO:SimulationEngine:Starting simulation engine ...
+INFO:SceneOrchestrator:A new simulation started at 2025-01-20 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 8 became infected at 2025-01-20 07:30:00. pre_symp_end=2025-01-21 20:45:30.817032
+INFO:PandemicStateManager:[PSM] Agent 15 became infected at 2025-01-20 09:00:10. pre_symp_end=2025-01-22 07:26:49.862646
+INFO:PandemicStateManager:[PSM] Agent 14 became infected at 2025-01-20 10:20:55. pre_symp_end=2025-01-23 15:48:33.002262
+INFO:PandemicStateManager:[PSM] Agent 23 became infected at 2025-01-20 11:00:00. pre_symp_end=2025-01-22 22:27:19.228496
+INFO:PandemicStateManager:[PSM] Agent 10 became infected at 2025-01-20 12:56:20. pre_symp_end=2025-01-27 21:28:35.664230
+INFO:SceneOrchestrator:A new simulation started at 2025-01-21 07:30:00
+INFO:PandemicStateManager:[PSM] Agent -1 became infected at 2025-01-21 07:56:15. pre_symp_end=2025-01-23 22:57:21.735382
+INFO:PandemicStateManager:[PSM] Agent 3 became infected at 2025-01-21 08:59:50. pre_symp_end=2025-01-24 22:22:35.636067
+INFO:SceneOrchestrator:A new simulation started at 2025-01-22 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 17 became infected at 2025-01-22 07:52:30. pre_symp_end=2025-01-28 16:09:04.675683
+INFO:PandemicStateManager:[PSM] Agent 8 quarantined at end_of_day. Until 2025-02-05 13:59:55
+INFO:PandemicStateManager:[PSM] Agent 15 quarantined at end_of_day. Until 2025-02-05 13:59:55
+INFO:SceneOrchestrator:A new simulation started at 2025-01-23 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 23 quarantined at end_of_day. Until 2025-02-06 13:59:55
+INFO:SceneOrchestrator:A new simulation started at 2025-01-24 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 5 became infected at 2025-01-24 12:50:45. pre_symp_end=2025-01-26 00:37:05.630917
+INFO:PandemicStateManager:[PSM] Agent 14 quarantined at end_of_day. Until 2025-02-07 13:59:55
+INFO:PandemicStateManager:[PSM] Agent -1 quarantined at end_of_day. Until 2025-02-07 13:59:55
+INFO:SceneOrchestrator:A new simulation started at 2025-01-27 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 3 quarantined at end_of_day. Until 2025-02-10 13:59:55
+INFO:PandemicStateManager:[PSM] Agent 5 quarantined at end_of_day. Until 2025-02-10 13:59:55
+INFO:SceneOrchestrator:A new simulation started at 2025-01-28 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 10 quarantined at end_of_day. Until 2025-02-11 13:59:55
+INFO:SceneOrchestrator:A new simulation started at 2025-01-29 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 17 quarantined at end_of_day. Until 2025-02-12 13:59:55
+INFO:SceneOrchestrator:A new simulation started at 2025-01-30 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-01-31 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-02-03 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-02-04 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-02-05 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-02-06 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 8 recovered after quarantine.
+INFO:PandemicStateManager:[PSM] Agent 15 recovered after quarantine.
+INFO:SceneOrchestrator:A new simulation started at 2025-02-07 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 23 recovered after quarantine.
+INFO:SceneOrchestrator:A new simulation started at 2025-02-10 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 14 recovered after quarantine.
+INFO:PandemicStateManager:[PSM] Agent -1 recovered after quarantine.
+INFO:SceneOrchestrator:A new simulation started at 2025-02-11 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 3 recovered after quarantine.
+INFO:PandemicStateManager:[PSM] Agent 5 recovered after quarantine.
+INFO:SceneOrchestrator:A new simulation started at 2025-02-12 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 10 recovered after quarantine.
+INFO:SceneOrchestrator:A new simulation started at 2025-02-13 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 17 recovered after quarantine.
+INFO:SceneOrchestrator:A new simulation started at 2025-02-14 07:30:00
+INFO:SimulationEngine:Simulation reached the end (all weeks).
+INFO:SimulationEngine:Quitting the simulator engine.

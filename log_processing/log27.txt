@@ -1,0 +1,49 @@
+INFO:SimulationEngine:Starting simulation engine ...
+INFO:SceneOrchestrator:A new simulation started at 2025-01-20 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-01-21 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-01-22 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 14 became infected at 2025-01-22 07:30:00. pre_symp_end=2025-01-23 13:30:57.786666
+INFO:PandemicStateManager:[PSM] Agent 15 became infected at 2025-01-22 08:55:15. pre_symp_end=2025-01-23 02:17:09.191218
+INFO:PandemicStateManager:[PSM] Agent 17 became infected at 2025-01-22 10:52:05. pre_symp_end=2025-01-23 16:39:55.728418
+INFO:PandemicStateManager:[PSM] Agent 8 became infected at 2025-01-22 10:52:40. pre_symp_end=2025-01-23 13:26:47.255882
+INFO:PandemicStateManager:[PSM] Agent 5 became infected at 2025-01-22 13:00:05. pre_symp_end=2025-01-23 11:41:29.485293
+INFO:PandemicStateManager:[PSM] Agent 23 became infected at 2025-01-22 13:07:05. pre_symp_end=2025-01-25 12:34:38.530703
+INFO:SceneOrchestrator:A new simulation started at 2025-01-23 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 3 became infected at 2025-01-23 08:53:40. pre_symp_end=2025-01-24 12:11:14.122728
+INFO:PandemicStateManager:[PSM] Agent -1 became infected at 2025-01-23 09:00:35. pre_symp_end=2025-01-26 11:53:29.386016
+INFO:PandemicStateManager:[PSM] Agent 5 quarantined at end_of_day. Until 2025-02-06 13:59:55
+INFO:PandemicStateManager:[PSM] Agent 8 quarantined at end_of_day. Until 2025-02-06 13:59:55
+INFO:PandemicStateManager:[PSM] Agent 14 quarantined at end_of_day. Until 2025-02-06 13:59:55
+INFO:PandemicStateManager:[PSM] Agent 15 quarantined at end_of_day. Until 2025-02-06 13:59:55
+INFO:SceneOrchestrator:A new simulation started at 2025-01-24 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 3 quarantined at end_of_day. Until 2025-02-07 13:59:55
+INFO:PandemicStateManager:[PSM] Agent 17 quarantined at end_of_day. Until 2025-02-07 13:59:55
+INFO:SceneOrchestrator:A new simulation started at 2025-01-27 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 23 quarantined at end_of_day. Until 2025-02-10 13:59:55
+INFO:PandemicStateManager:[PSM] Agent -1 quarantined at end_of_day. Until 2025-02-10 13:59:55
+INFO:SceneOrchestrator:A new simulation started at 2025-01-28 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-01-29 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-01-30 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 0 became infected at 2025-01-30 07:30:00. pre_symp_end=2025-02-01 08:56:12.228463
+INFO:SceneOrchestrator:A new simulation started at 2025-01-31 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-02-03 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 0 quarantined at end_of_day. Until 2025-02-17 13:59:55
+INFO:SceneOrchestrator:A new simulation started at 2025-02-04 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-02-05 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-02-06 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-02-07 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 5 recovered after quarantine.
+INFO:PandemicStateManager:[PSM] Agent 8 recovered after quarantine.
+INFO:PandemicStateManager:[PSM] Agent 14 recovered after quarantine.
+INFO:PandemicStateManager:[PSM] Agent 15 recovered after quarantine.
+INFO:SceneOrchestrator:A new simulation started at 2025-02-10 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 3 recovered after quarantine.
+INFO:PandemicStateManager:[PSM] Agent 17 recovered after quarantine.
+INFO:SceneOrchestrator:A new simulation started at 2025-02-11 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 23 recovered after quarantine.
+INFO:PandemicStateManager:[PSM] Agent -1 recovered after quarantine.
+INFO:SceneOrchestrator:A new simulation started at 2025-02-12 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-02-13 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-02-14 07:30:00
+INFO:SimulationEngine:Simulation reached the end (all weeks).
+INFO:SimulationEngine:Quitting the simulator engine.

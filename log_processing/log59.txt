@@ -1,0 +1,41 @@
+INFO:SimulationEngine:Starting simulation engine ...
+INFO:SceneOrchestrator:A new simulation started at 2025-01-20 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-01-21 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-01-22 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-01-23 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-01-24 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-01-27 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-01-28 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-01-29 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-01-30 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-01-31 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-02-03 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-02-04 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 14 became infected at 2025-02-04 07:30:00. pre_symp_end=2025-02-04 22:01:22.396312
+INFO:PandemicStateManager:[PSM] Agent 15 became infected at 2025-02-04 08:54:40. pre_symp_end=2025-02-05 12:23:46.322064
+INFO:PandemicStateManager:[PSM] Agent 8 became infected at 2025-02-04 09:57:35. pre_symp_end=2025-02-05 09:08:46.330811
+INFO:PandemicStateManager:[PSM] Agent 23 became infected at 2025-02-04 09:58:15. pre_symp_end=2025-02-06 20:39:48.031008
+INFO:PandemicStateManager:[PSM] Agent -1 became infected at 2025-02-04 11:00:45. pre_symp_end=2025-02-06 15:13:19.602405
+INFO:SceneOrchestrator:A new simulation started at 2025-02-05 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 20 became infected at 2025-02-05 07:30:00. pre_symp_end=2025-02-05 22:45:08.120720
+INFO:PandemicStateManager:[PSM] Agent 3 became infected at 2025-02-05 09:59:50. pre_symp_end=2025-02-06 21:36:02.523517
+INFO:PandemicStateManager:[PSM] Agent 10 became infected at 2025-02-05 10:59:40. pre_symp_end=2025-02-06 09:34:24.824637
+INFO:PandemicStateManager:[PSM] Agent 8 quarantined at end_of_day. Until 2025-02-19 13:59:55
+INFO:PandemicStateManager:[PSM] Agent 14 quarantined at end_of_day. Until 2025-02-19 13:59:55
+INFO:PandemicStateManager:[PSM] Agent 15 quarantined at end_of_day. Until 2025-02-19 13:59:55
+INFO:SceneOrchestrator:A new simulation started at 2025-02-06 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 5 became infected at 2025-02-06 13:50:30. pre_symp_end=2025-02-08 22:28:46.310301
+INFO:PandemicStateManager:[PSM] Agent 10 quarantined at end_of_day. Until 2025-02-20 13:59:55
+INFO:PandemicStateManager:[PSM] Agent 20 quarantined at end_of_day. Until 2025-02-20 13:59:55
+INFO:SceneOrchestrator:A new simulation started at 2025-02-07 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 3 quarantined at end_of_day. Until 2025-02-21 13:59:55
+INFO:PandemicStateManager:[PSM] Agent 23 quarantined at end_of_day. Until 2025-02-21 13:59:55
+INFO:PandemicStateManager:[PSM] Agent -1 quarantined at end_of_day. Until 2025-02-21 13:59:55
+INFO:SceneOrchestrator:A new simulation started at 2025-02-10 07:30:00
+INFO:PandemicStateManager:[PSM] Agent 5 quarantined at end_of_day. Until 2025-02-24 13:59:55
+INFO:SceneOrchestrator:A new simulation started at 2025-02-11 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-02-12 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-02-13 07:30:00
+INFO:SceneOrchestrator:A new simulation started at 2025-02-14 07:30:00
+INFO:SimulationEngine:Simulation reached the end (all weeks).
+INFO:SimulationEngine:Quitting the simulator engine.
