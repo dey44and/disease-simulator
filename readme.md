@@ -153,8 +153,9 @@ parameters used:
 | Phase              | Mean Duration (days) | 
 |--------------------|----------------------|
 | Incubation (total) | 5.2                  |
-| Pre-symptomatic | 2.3                  |
-|Symptomatic | 3.2 |
+| Pre-symptomatic    | 2.3                  |
+| Symptomatic        | 3.2                  |
+
 At the end of each simulation day, symptomatic agents are tested and quarantined if
 necessary. Quarantine ensures agents do not interact with the environment or contribute
 to viral shedding. Recovery is determined by the completion of the quarantine period.
